@@ -1,1 +1,91 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"/><link rel="icon" href="/favicon.ico"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#000000"/><meta name="description" content="Web site created using create-react-app"/><link rel="apple-touch-icon" href="/logo192.png"/><link rel="manifest" href="/manifest.json"/><title>React App</title><script defer="defer" src="/static/js/main.0215976b.js"></script><link href="/static/css/main.073c9b0a.css" rel="stylesheet"></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div></body></html>
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+    <link rel="icon" href="./favicon.ico" type="image/x-icon">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="css/ES.css"  media="screen,projection"/>
+    <title>Eye-Search</title>
+    <script src="https://apis.google.com/js/api.js" defer></script>
+    <script src="TemplateData/main.js" defer></script>
+    <script src="Build/UnityLoader.js"></script>
+    <script type="text/javascript">
+
+      var gameLoaded = false;
+      // Custom progressbar function
+      function customProgress(unityInstance, progress) {
+          // Change fill of the progress bar
+          const fill = document.getElementById("fill");
+          fill.style.width = progress * 100 + "%";
+
+          // If loaded, remove loader
+          if (progress === 1) {
+              const loader = document.getElementById("loader");
+              loader.remove();
+              gameLoaded = true;
+          }
+      }
+      var unityInstance = UnityLoader.instantiate("unityContainer", "Build/EyeSearch2-VSTest.json", {onProgress: customProgress});
+
+      // Callback for the Unity OnClose event
+      window.onbeforeunload = function(e) {
+        unityInstance.SendMessage("GameManager(Clone)", "OnClose");
+
+        setTimeout(function(){
+            self.close();
+        },2000);
+        //var dialogText = "You game has been saved!  Would you like to continue unloading the page?";
+        //e.returnValue = dialogText;
+        //return dialogText;
+      };
+
+    </script>
+  </head>
+  <body>
+    <!-- Navbar -->
+    <header>
+      <nav>
+        <div class="nav-wrapper row grey darken-4 ">
+          <div class="">
+            <a href="#" class="left brand-logo white-text">Eye-Search</a>
+          </div>
+          <ul id="nav-mobile" class="right hide-on-med-and-down"></ul>
+        </div>
+      </nav>
+    </header>
+    
+    
+    <!-- WebGL Content -->
+    <main>
+      <div class="container flexbox" style="margin-top: 8vh;">
+        <div class="row">
+            <div class="col webgl-content flexbox">
+            <div id="unityContainer" style="width: 960px; height: 600px"></div>
+            <!-- This is a simple progress bar -->
+            <div id="loader" class="loader">
+              <div class="progressbar">
+                <div id="fill" class="fill" style="width: 0%;"></div>
+              </div>
+            </div>
+          <div id="sign_in"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="page-footer grey darken-4">
+      <div class="footer-copyright grey darken-4 row">
+          <div class="col s12">
+            © 2021 UCL Quiley
+          </div>
+      </div>
+    </footer>
+    <script type="text/javascript" src="js/materialize.min.js"></script>
+  </body>
+</html>
